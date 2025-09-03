@@ -4,6 +4,7 @@ import (
 	"errors"
 	"net/http"
 	"zaxx/backend/model"
+	"zaxx/backend/database"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -30,7 +31,7 @@ func getErrorMessage(fe validator.FieldError)string{
 
 func FindPost(c *gin.Context){
 	var posts []model.Post
-	model.DB.Find(&posts)
+	database.DB.Find(&posts)
 
 	c.JSON(200, gin.H{
 		"success" : true,
@@ -58,7 +59,7 @@ func StorePost(c *gin.Context){
 		Content: input.Content,
 	}
 
-	model.DB.Create(&post)
+	database.DB.Create(&post)
 
 	c.JSON(201, gin.H{
 		"success" : true,
@@ -69,7 +70,7 @@ func StorePost(c *gin.Context){
 
 func FindPostById(c *gin.Context){
 	var post model.Post
-	if err := model.DB.Where("id = ?", c.Param("id")).First(&post).Error; err != nil {
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&post).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error" : "Data Tidak Ditemukan!"})
 		return
 	}
@@ -83,7 +84,7 @@ func FindPostById(c *gin.Context){
 
 func UpdatePost(c *gin.Context){
 	var post model.Post
-	if err := model.DB.Where("id = ?", c.Param("id")).First(&post).Error; err != nil {
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&post).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error" : "Data Tidak Ditemukan"})
 		return
 	}
@@ -101,7 +102,7 @@ func UpdatePost(c *gin.Context){
 		return
 	}
 
-	model.DB.Model(&post).Updates(input)
+	database.DB.Model(&post).Updates(input)
 
 	c.JSON(200, gin.H{
 		"success" : true,
@@ -112,12 +113,12 @@ func UpdatePost(c *gin.Context){
 
 func DeletePost(c *gin.Context){
 	var post model.Post
-	if err := model.DB.Where("id = ?", c.Param("id")).First(&post).Error; err != nil {
+	if err := database.DB.Where("id = ?", c.Param("id")).First(&post).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error" : "Data Tidak Ditemukan"})
 		return
 	}
 
-	model.DB.Delete(&post)
+	database.DB.Delete(&post)
 
 	c.JSON(200, gin.H{
 		"success" : true,
