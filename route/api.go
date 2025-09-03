@@ -1,13 +1,16 @@
 package route
 
 import(
+	"os"
 
 	"zaxx/backend/controller"
 	"github.com/gin-gonic/gin"
+	"zaxx/backend/config"
 )
 
 func RouteMain(){
 	router := gin.Default()
+	config.LoadEnv()
 		
 	router.GET("/", func(c *gin.Context){
 		c.JSON(200, gin.H{
@@ -21,6 +24,6 @@ func RouteMain(){
 	router.PUT("/api/posts/:id", controller.UpdatePost)
 	router.DELETE("/api/posts/:id", controller.DeletePost)
 
-	router.Run(":3000")
-	
+	router.Run(":"+ os.Getenv("APP_PORT"))
+
 }

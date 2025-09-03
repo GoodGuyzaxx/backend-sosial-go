@@ -1,18 +1,21 @@
 package main
- 
 
-import(
+import (
 	// "github.com/gin-gonic/gin"
 
-	"zaxx/backend/model"
+	// "zaxx/backend/model"
+	// "fmt"
+	// "os"
+	"zaxx/backend/config"
+	"zaxx/backend/database"
 	"zaxx/backend/route"
 )
 
 func main(){
-	// router := gin.Default()
+	config.LoadEnv()
 
-	model.ConncetDatabase()
+database.InitDB()
 	route.RouteMain()
 
-	// router.Run(":3000")
+	
 }
