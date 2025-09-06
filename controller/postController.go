@@ -40,6 +40,7 @@ func FindPost(c *gin.Context){
 	})
 }
 
+
 func StorePost(c *gin.Context){
 	var input ValidationPostInput
 	if err := c.ShouldBindBodyWithJSON(&input); err != nil {
