@@ -35,7 +35,7 @@ func TrasnsalateErrorMessage(err error) map[string]string {
 
 	if err != nil {
 		if strings.Contains(err.Error(), "Duplicate entry") {
-			if strings.Contains(err.Error(), "username"){
+			if strings.Contains(err.Error(), "username") {
 				errorMap["Username"] = "Username Already Exsists"
 			}
 			if strings.Contains(err.Error(), "email") {
